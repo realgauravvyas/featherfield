@@ -1,0 +1,55 @@
+name: Verify and deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  # The page tells visitors it matches the Python tool. If that stops being true, nothing ships.
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify the maths and the parity with hemispheR-py
+        run: node tools/verify.mjs
+      - name: Check the page in a real browser
+        run: |
+          CHROME_PATH=$(which google-chrome || which chromium-browser || true)
+          if [ -z "$CHROME_PATH" ]; then echo "No Chrome on this runner — skipping."; exit 0; fi
+          export CHROME_PATH
+          node tools/probe.mjs "file://$PWD/index.html" --w 1440 --h 900 --wait 6000 --eval tools/checks.js
+          node tools/probe.mjs "file://$PWD/index.html" --w 390 --h 844 --mobile --wait 6000 --eval tools/checks.js
+
+  deploy:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Stage the site
+        run: |
+          mkdir -p _site
+          cp index.html .nojekyll _site/
+          cp -r assets _site/
+          [ -f CNAME ] && cp CNAME _site/ || true
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Featherfield — feather-light, open-source tools for the field</title>
+<meta name="description" content="Featherfield builds open-source, lightweight alternatives to heavy field-measurement software for farmers and ecologists. First tool: hemispheR-py — leaf area index and canopy structure from a single fisheye photo.">
+<meta name="author" content="Gaurav Vyas">
+<link rel="canonical" href="https://realgauravvyas.github.io/featherfield/">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#070b09">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Featherfield">
+<meta property="og:title" content="Featherfield — feather-light, open-source tools for the field">
+<meta property="og:description" content="Open-source, lightweight alternatives to heavy field-measurement software, for farmers and ecologists. First tool: hemispheR-py.">
+<meta property="og:url" content="https://realgauravvyas.github.io/featherfield/">
+<meta property="og:image" content="https://realgauravvyas.github.io/featherfield/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Featherfield",
+  "url": "https://realgauravvyas.github.io/featherfield/",
+  "description": "Open-source, lightweight apps for farmers and ecologists.",
+  "founder": { "@type": "Person", "name": "Gaurav Vyas", "url": "https://github.com/realgauravvyas" },
+  "sameAs": [
+    "https://github.com/realgauravvyas/featherfield",
+    "https://github.com/realgauravvyas/hemispheR-py"
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="assets/css/style.css">
+<script>
+/* paint the saved theme before the first frame — no flash on reload */
+(function () {
+  var d = document.documentElement;
+  d.classList.remove('no-js');
+  try {
+    var t = localStorage.getItem('ff-theme');
+    if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t);
+  } catch (e) { /* private mode — follow the system */ }
+})();
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#tools">Skip to the tools</a>
+
+<!-- ═══════════════════════════ CHROME ═══════════════════════════ -->
+<header class="bar" id="bar">
+  <a class="brand" href="#top" aria-label="Featherfield — top of page">
+    <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+      <rect class="bm-bg" width="64" height="64" rx="14"/>
+      <circle class="bm-ring" cx="32" cy="32" r="23"/>
+      <path class="bm-leaf" d="M15 50C15 29 29 14 50 14C50 35 36 50 15 50Z"/>
+      <path class="bm-vein" d="M19 46L43 21"/>
+      <circle class="bm-sun" cx="47" cy="17" r="3.4"/>
+    </svg>
+    <span>Featherfield</span>
+  </a>
+  <nav class="bar-nav" id="barNav" aria-label="Sections">
+    <a href="#tools">Tools</a>
+    <a href="#why">Why</a>
+    <a href="#method">Method</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="bar-actions">
+    <a class="pill" href="https://github.com/realgauravvyas/featherfield" rel="noopener" aria-label="Featherfield on GitHub">
+      <span aria-hidden="true">★</span><span class="pill-label">GitHub</span>
+    </a>
+    <button class="pill" id="themeToggle" type="button" aria-pressed="false" title="Toggle light / dark (press T)">
+      <span aria-hidden="true" id="themeIcon">☀</span><span class="pill-label" id="themeLabel">Light</span>
+    </button>
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="barNav" aria-label="Toggle section menu">
+      <span class="nav-toggle-icon" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+
+    <div class="hero-copy">
+      <p class="kicker">Open source<span class="dot">·</span>Lightweight<span class="dot">·</span>Field-first</p>
+      <h1 class="display"><span class="glow">Feather-light</span> tools for the&nbsp;field.</h1>
+      <p class="lede">
+        Featherfield builds <strong>open-source, lightweight alternatives to heavy field-measurement software</strong> —
+        apps that give farmers and ecologists real numbers from an ordinary photo, on ordinary hardware.
+      </p>
+      <p class="lede-sub">
+        The canopy on this page isn’t a stock image. It is generated from a known leaf area, photographed, and
+        measured live in your browser by the same algorithm as our first tool,
+        <a href="#tools">hemispheR-py</a> — then <a href="#method">checked against it</a>.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#tools">See the first tool <span aria-hidden="true">↓</span></a>
+        <a class="btn" href="https://github.com/realgauravvyas/hemispheR-py" rel="noopener">Source on GitHub <span aria-hidden="true">↗</span></a>
+      </div>
+      <ul class="chips" aria-label="Highlights">
+        <li class="chip"><b>Agriculture</b></li>
+        <li class="chip"><b>Forestry</b> &amp; ecology</li>
+        <li class="chip"><b>MIT</b> licensed</li>
+        <li class="chip"><b>0</b> dependencies on this page</li>
+      </ul>
+    </div>
+
+    <!-- the live canopy -->
+    <div class="lens-card" id="lensCard">
+      <div class="lens-frame" id="lensFrame">
+        <canvas class="lens-canvas" id="view" width="560" height="560" role="img"
+                aria-label="Synthetic fisheye photograph of a leafy tree canopy, with the zenith rings used to measure it."></canvas>
+        <div class="lens-tag" id="lensTag">rendering canopy…</div>
+        <div class="lens-drop" id="lensDrop" hidden>Drop a fisheye photo to measure it</div>
+      </div>
+
+      <dl class="readout" id="readout">
+        <div class="ro"><dt>Le <span>effective LAI</span></dt><dd id="roLe">—</dd></div>
+        <div class="ro"><dt>L <span>corrected LAI</span></dt><dd id="roL">—</dd></div>
+        <div class="ro"><dt>LX <span>clumping index</span></dt><dd id="roLX">—</dd></div>
+        <div class="ro"><dt>DIFN <span>open sky</span></dt><dd id="roDIFN">—</dd></div>
+      </dl>
+
+      <div>
+        <div class="rings" id="rings" aria-hidden="true"></div>
+        <div class="rings-cap" aria-hidden="true">
+          <span id="ringsCap">gap fraction by zenith ring, 0° → 70°</span>
+          <span id="ringsLegend"><span class="lg-bar">measured</span> &nbsp; <span class="lg-tick" id="lgTick">random canopy</span></span>
+        </div>
+      </div>
+
+      <div class="controls">
+        <label class="ctl" for="lai">
+          <span class="ctl-k">Leaf area <em>(true Λ)</em></span>
+          <output id="laiOut" for="lai">3.0</output>
+          <input id="lai" type="range" min="0.5" max="6" step="0.1" value="3">
+        </label>
+        <label class="ctl" for="clump">
+          <span class="ctl-k">Clumping</span>
+          <output id="clumpOut" for="clump">0%</output>
+          <input id="clump" type="range" min="0" max="100" step="5" value="0">
+        </label>
+      </div>
+
+      <div class="actions">
+        <div class="seg" role="group" aria-label="What to show">
+          <button type="button" id="vPhoto" aria-pressed="true">Photo</button>
+          <button type="button" id="vClass" aria-pressed="false">Sky / canopy</button>
+        </div>
+        <button type="button" class="btn btn-sm" id="btnNew">New canopy</button>
+        <label class="btn btn-sm btn-file" id="btnFile">Measure my photo
+          <input type="file" id="file" accept="image/*">
+        </label>
+      </div>
+
+      <p class="lens-check" id="lensCheck">&nbsp;</p>
+
+      <details class="adv" id="adv">
+        <summary>Settings</summary>
+        <div class="adv-grid">
+          <label><input type="checkbox" id="zonal" checked> Zonal thresholds <span class="muted">(4 quadrants)</span></label>
+          <label>Lens
+            <select id="lens" aria-label="Lens projection">
+              <option value="equidistant">Equidistant</option>
+              <option value="FC-E8">Nikon FC-E8</option>
+            </select>
+          </label>
+          <p class="note" id="advNote">Your photo never leaves this browser tab. It is read, measured and discarded locally.
+            Assumes a circular fisheye image centred in the frame, blue channel, gamma 0.85 and a 70° analysis limit —
+            the defaults of hemispheR-py. For other masks and cameras, use the Python tool.</p>
+        </div>
+      </details>
+
+      <noscript><p class="lede-sub">Enable JavaScript to run the live canopy. Everything else on this page works without it.</p></noscript>
+      <p class="sr-only" id="srStatus" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ AT A GLANCE ═══════════════════════════ -->
+<section class="glance" aria-label="At a glance">
+  <div class="wrap glance-grid">
+    <div class="gl"><div class="gl-v">MIT</div><p class="gl-k">Every tool is open source. No accounts, no licence keys.</p></div>
+    <div class="gl"><div class="gl-v">3<small>packages</small></div><p class="gl-k">numpy, pandas and Pillow are all hemispheR-py needs — no OpenCV, no R.</p></div>
+    <div class="gl"><div class="gl-v">0<small>dependencies</small></div><p class="gl-k">on this page: system fonts, no libraries, no trackers.</p></div>
+    <div class="gl"><div class="gl-v" id="glParity">—</div><p class="gl-k" id="glParityK">reference canopies on which this page’s JavaScript matches the Python tool exactly.</p></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ TOOLS ═══════════════════════════ -->
+<section class="section" id="tools">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">Tools</p>
+      <h2 class="sec-title">One tool out. More on the way.</h2>
+      <p class="sec-lede">Each Featherfield tool starts from a field measurement that normally needs heavy, closed or expensive software, and rebuilds it small, open and checkable.</p>
+    </div>
+
+    <div class="tools">
+      <article class="card reveal" id="hemispher">
+        <div class="card-top"><span class="tag is-live">Released</span><span class="tag">Python · MIT</span></div>
+        <h3 class="card-title">hemispheR-py</h3>
+        <p class="card-tagline">Canopy structure from one fisheye photo.</p>
+        <p class="card-body">
+          Point it at an upward-facing hemispherical photo and it returns effective and corrected leaf area index,
+          the clumping index, gap fraction by zenith ring and canopy openness — the numbers ecologists and foresters
+          use to describe how much light a canopy lets through. It is a from-scratch Python port of the
+          hemispherical-photography workflow, without the heavy R / OpenCV stack.
+        </p>
+        <dl class="facts">
+          <dt>Input</dt><dd>An upward-facing fisheye photo (JPG, PNG or TIFF).</dd>
+          <dt>Output</dt><dd>Effective LAI, corrected LAI, clumping index, DIFN, and the full ring × sector gap-fraction table.</dd>
+          <dt>Needs</dt><dd>Python with numpy, pandas and Pillow.</dd>
+          <dt>Comes as</dt><dd>A script, a Streamlit web app, and an Android app — the Canopy Analyzer listed on the lab’s tools page.</dd>
+        </dl>
+        <div class="code" id="codeBlock"><button type="button" data-copy="git clone https://github.com/realgauravvyas/hemispheR-py&#10;pip install numpy pandas pillow&#10;python core/hemispherR-py.py" aria-label="Copy the install commands">Copy</button><span class="c"># edit CONFIG (your image path) at the top of the script first</span>
+git clone https://github.com/realgauravvyas/hemispheR-py
+pip install numpy pandas pillow
+python core/hemispherR-py.py</div>
+        <div class="card-links">
+          <a class="linkrow is-primary" href="https://github.com/realgauravvyas/hemispheR-py" rel="noopener">Source on GitHub <span aria-hidden="true">↗</span></a>
+          <a class="linkrow" href="https://fac.iitg.ac.in/dmandal/Agro-geoinformaticsLab/tools.html" rel="noopener">Canopy Analyzer Android app — lab tools page <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+
+      <article class="card card-next reveal">
+        <div class="card-top"><span class="tag is-next">Next</span></div>
+        <h3 class="card-title">The next one</h3>
+        <p class="card-tagline">Same rules, a different measurement.</p>
+        <p class="card-body">
+          Light enough for a phone or an old laptop. Open enough to read and change. Checked against a reference
+          so you can trust the number. Every Featherfield tool starts from the same three things:
+        </p>
+        <ul class="criteria">
+          <li><b>A measurement</b> people already make in the field,</li>
+          <li><b>a method</b> that is heavy, closed or costly today,</li>
+          <li><b>a reference</b> we can check our version against.</li>
+        </ul>
+        <p class="card-body" style="margin-top:14px">Know one? Tell us which measurement you wish your phone could make.</p>
+        <div class="card-links">
+          <a class="linkrow is-primary" href="https://github.com/realgauravvyas/featherfield/discussions" rel="noopener">Suggest a tool <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ WHY ═══════════════════════════ -->
+<section class="section" id="why">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">Why</p>
+      <h2 class="sec-title">Field work shouldn’t need a workstation.</h2>
+      <p class="sec-lede">Farmers and ecologists make decisions standing in a plot, a stand or a paddock. The tools that measure what they care about too often assume a desktop, a licence and a stable connection. We build the opposite.</p>
+    </div>
+    <div class="principles">
+      <div class="pr reveal"><span class="pr-n">01</span><h3>Open by default</h3><p>Code is MIT-licensed, methods are written down, and every number can be re-derived. No accounts, no licence keys, no usage fees.</p></div>
+      <div class="pr reveal"><span class="pr-n">02</span><h3>Light by design</h3><p>Few dependencies and small installs that run on modest hardware — the kind people actually carry into a field. hemispheR-py needs three packages; this page needs none.</p></div>
+      <div class="pr reveal"><span class="pr-n">03</span><h3>Field-first</h3><p>Photo in, numbers out. Workflows shaped by what someone does standing in the crop or the canopy, not at a workstation.</p></div>
+      <div class="pr reveal"><span class="pr-n">04</span><h3>Verified, not claimed</h3><p>Each tool is held to a reference implementation and the evidence is published. This page re-runs that check on itself every time it loads.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ METHOD ═══════════════════════════ -->
+<section class="section" id="method">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">Method</p>
+      <h2 class="sec-title">Nothing here is faked.</h2>
+      <p class="sec-lede">The canopy above is rendered from a known leaf area Λ, then measured as if it were a photograph. The measurement is a step-for-step port of hemispheR-py’s pipeline — down to numpy’s rounding — so the two give the same answers on the same pixels.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step reveal"><h3>Import</h3><p>Mask the fisheye circle, take the blue channel (sky is bright in blue, leaves are dark), gamma-correct and scale to 0–255.</p></div>
+      <div class="step reveal"><h3>Binarize</h3><p>Otsu’s method picks the threshold that best splits sky from canopy — once for the whole frame, or per compass quadrant when the light is uneven.</p></div>
+      <div class="step reveal"><h3>Gap fraction</h3><p>Map each pixel to its view-zenith angle through the lens model, bin into 7 rings × 8 sectors and take the fraction of sky in each.</p></div>
+      <div class="step reveal"><h3>Canopy attributes</h3><p>Invert Beer–Lambert over the rings to get leaf area index, then compare with the per-sector estimate to get the clumping index.</p></div>
+    </div>
+
+<div class="formulas reveal" role="group" aria-label="The formulas">
+      <p class="fl-def">T(θᵢ) is the fraction of sky pixels in zenith ring i, and wᵢ = sin θᵢ / Σⱼ sin θⱼ.</p>
+      <div class="fr"><code><b>Le</b> = 2 · Σᵢ −ln T(θᵢ) · cos θᵢ · wᵢ</code><span>effective LAI — assumes leaves are placed at random (Miller 1967)</span></div>
+      <div class="fr"><code><b>L</b> = 2 · Σᵢ mean<sub>j</sub>[ −ln T(θᵢ, φⱼ) ] · cos θᵢ · wᵢ</code><span>corrected LAI — logs are taken per sector first (after Lang &amp; Xiang 1986)</span></div>
+      <div class="fr"><code><b>LX</b> = Le / L</code><span>clumping index — 1 for a random canopy, lower when leaves are clumped</span></div>
+      <div class="fr"><code><b>DIFN</b> = 100 · Σᵢ T(θᵢ) sin θᵢ cos θᵢ / Σⱼ sin θⱼ cos θⱼ</code><span>diffuse non-interceptance — the percentage of the sky that gets through</span></div>
+    </div>
+
+    <div class="proof">
+      <div class="card reveal">
+        <h3>Round trip</h3>
+        <p>Render a canopy of known leaf area, measure the picture, compare. Over 24 canopies per setting, random canopies read about <span class="num">6% low</span>: pixels that blend leaf edge and sky tip toward “sky”. The error is steady from Λ = 1 to 4.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Clumping</h3>
+        <p>Gather the same leaves into clusters and more light gets through, so Le falls by about <span class="num">10–15%</span> — while the corrected L typically stays within about <span class="num">5%</span> of the truth. That is the clumping index doing its job. Try the slider.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Parity with the Python tool</h3>
+        <p>The same 12 canopies, run through the real hemispheR-py, give identical thresholds and identical Le, L, LX and DIFN — across lenses, channels, global and zonal thresholds, and ring counts. Your browser repeats the comparison on every load; CI blocks deploys if it ever fails.</p>
+      </div>
+    </div>
+
+    <p class="limits reveal"><b>What this does not prove.</b> A synthetic canopy tests the arithmetic and the port, not your camera. Real photos add exposure, lens, mask and sky-condition error — the sky/canopy threshold is the biggest — which is why the Python tool exposes mask, channel, gamma, lens and thresholds. Shoot level, under even sky, and treat any single number as an estimate.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ ABOUT ═══════════════════════════ -->
+<section class="section" id="about">
+  <div class="wrap about">
+    <div class="reveal">
+      <p class="kicker">About</p>
+      <h2 class="sec-title">Who’s building this.</h2>
+      <p style="margin-top:18px">Featherfield is founded by <strong>Gaurav Vyas</strong> — B.Sc. (Hons.) in Data Science &amp; AI at IIT Guwahati, with a Post Graduate Diploma in Applied Statistics at ISI Kolkata.</p>
+      <p>hemispheR-py began as a research project in the <strong>Agro-geoinformatics Lab at IIT Guwahati</strong>: <em>a Python-based framework for automatic plant biophysical variable extraction from hemispherical canopy images.</em> The lab lists the work on its researcher page and its tools page.</p>
+      <p>It stands on the R package <a href="https://cran.r-project.org/package=hemispheR" rel="noopener">hemispheR</a> by Francesco Chianucci and Martin Macek (MIT-licensed; <a href="https://doi.org/10.1016/j.agrformet.2023.109470" rel="noopener">Chianucci &amp; Macek 2023, <em>Agricultural and Forest Meteorology</em></a>) — credit where it’s due.</p>
+      <p>The plan is simple: keep building small, open tools like this one for agriculture and forestry, and keep checking them against the truth.</p>
+      <p class="disclaimer">Featherfield is an independent venture. It is not an IIT Guwahati entity, and the institute does not endorse it.</p>
+    </div>
+    <aside class="card about-card reveal" aria-label="Elsewhere">
+      <h3>Elsewhere</h3>
+      <ul>
+        <li><a href="https://fac.iitg.ac.in/dmandal/Agro-geoinformaticsLab/people.html" rel="noopener">Researcher page <span>Agro-geoinformatics Lab ↗</span></a></li>
+        <li><a href="https://fac.iitg.ac.in/dmandal/Agro-geoinformaticsLab/tools.html" rel="noopener">Lab tools page <span>Canopy Analyzer app ↗</span></a></li>
+        <li><a href="https://github.com/realgauravvyas/hemispheR-py" rel="noopener">hemispheR-py <span>source ↗</span></a></li>
+        <li><a href="https://realgauravvyas.github.io/" rel="noopener">Gaurav’s portfolio <span>↗</span></a></li>
+        <li><a href="https://github.com/realgauravvyas" rel="noopener">GitHub <span>@realgauravvyas ↗</span></a></li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ CONTACT ═══════════════════════════ -->
+<section class="section section-cta" id="contact">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <h2 class="cta-title">Build with us.</h2>
+      <p class="cta-lede">Featherfield is early: one released tool and a clear direction. If you farm, do fieldwork, or write code that belongs in a field bag, we’d like to hear what you need measured.</p>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="https://github.com/realgauravvyas/featherfield/discussions" rel="noopener">Start a discussion <span aria-hidden="true">↗</span></a>
+        <a class="btn" href="https://github.com/realgauravvyas/featherfield/issues" rel="noopener">Open an issue <span aria-hidden="true">↗</span></a>
+        <a class="btn" href="https://github.com/realgauravvyas/hemispheR-py" rel="noopener">Star hemispheR-py <span aria-hidden="true">★</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top"><svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><rect class="bm-bg" width="64" height="64" rx="14"/><circle class="bm-ring" cx="32" cy="32" r="23"/><path class="bm-leaf" d="M15 50C15 29 29 14 50 14C50 35 36 50 15 50Z"/><path class="bm-vein" d="M19 46L43 21"/><circle class="bm-sun" cx="47" cy="17" r="3.4"/></svg><span>Featherfield</span></a>
+        <p>Open-source, lightweight tools for farmers and ecologists.</p>
+      </div>
+      <div>
+        <h4>Project</h4>
+        <ul>
+          <li><a href="https://github.com/realgauravvyas/featherfield" rel="noopener">This site on GitHub</a></li>
+          <li><a href="https://github.com/realgauravvyas/hemispheR-py" rel="noopener">hemispheR-py</a></li>
+          <li><a href="https://github.com/realgauravvyas/featherfield/discussions" rel="noopener">Discussions</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Research origin</h4>
+        <ul>
+          <li><a href="https://fac.iitg.ac.in/dmandal/Agro-geoinformaticsLab/tools.html" rel="noopener">Lab tools page</a></li>
+          <li><a href="https://fac.iitg.ac.in/dmandal/Agro-geoinformaticsLab/people.html" rel="noopener">Researcher page</a></li>
+          <li><a href="https://doi.org/10.1016/j.agrformet.2023.109470" rel="noopener">Chianucci &amp; Macek 2023</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Founder</h4>
+        <ul>
+          <li><a href="https://realgauravvyas.github.io/" rel="noopener">Portfolio</a></li>
+          <li><a href="https://github.com/realgauravvyas" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <span>© 2026 Gaurav Vyas · Code under the MIT licence · Independent venture, not an IIT Guwahati entity</span>
+      <span id="footMath"></span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/canopy.js" defer></script>
+<script src="assets/js/reference.js" defer></script>
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>

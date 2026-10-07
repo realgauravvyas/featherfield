@@ -1,0 +1,15 @@
+<!doctype html><meta charset="utf-8"><style>
+html,body{margin:0;width:1200px;height:630px;background:#070b09;color:#eef6f0;font-family:system-ui,"Segoe UI",sans-serif;overflow:hidden}
+.bg{position:absolute;inset:0;background:radial-gradient(500px 500px at 85% 35%,rgba(255,210,122,.18),transparent 70%),radial-gradient(600px 600px at 0% 100%,rgba(127,220,154,.14),transparent 70%)}
+.t{position:absolute;left:64px;top:140px;width:500px}
+.k{font:600 16px ui-monospace,Consolas,monospace;letter-spacing:.16em;color:#7fdc9a;text-transform:uppercase}
+h1{margin:22px 0 0;font-size:74px;line-height:1;letter-spacing:-.035em;font-weight:800}
+h1 span{background:linear-gradient(100deg,#7fdc9a,#ffd27a);-webkit-background-clip:text;color:transparent}
+p{margin:24px 0 0;font-size:24px;color:#9fb2a7;line-height:1.4}
+canvas{position:absolute;right:60px;top:55px;width:520px;height:520px;border-radius:24px;border:1px solid rgba(255,255,255,.17);background:#000}
+.b{position:absolute;left:70px;bottom:34px;font:700 26px system-ui;letter-spacing:-.01em}
+</style><div class=bg></div><div class=t><div class=k>Open source · Lightweight · Field-first</div><h1><span>Feather-light</span> tools for the field.</h1><p>Open-source apps for farmers and ecologists.</p></div><div class=b>Featherfield</div><canvas id=c width=520 height=520></canvas>
+<script src="../assets/js/canopy.js"></script><script>
+var s=Canopy.makeScene({seed:7,maxLai:3}),im=Canopy.render(s,3,520);
+document.getElementById('c').getContext('2d').putImageData(new ImageData(im.rgba,520,520),0,0);
+</script>
