@@ -2,7 +2,7 @@
 
 **Feather-light, open-source tools for the field** — lightweight alternatives to heavy field-measurement software, for farmers and ecologists.
 
-**Live:** <https://realgauravvyas.github.io/featherfield/>
+**Live:** <https://featherfield.org/>
 
 ## The idea
 
@@ -47,7 +47,7 @@ tools/                  verify, probe, checks, reference generator, og.html
 
 ## Custom domain
 
-Add a `CNAME` file containing the domain, point DNS at GitHub Pages, and update the `canonical` / `og:` URLs in `index.html`.
+The site is served at <https://featherfield.org> (`CNAME` file + GitHub Pages DNS: four `A` records for `@`, `www` CNAME to `realgauravvyas.github.io`).
 
 ## Origin & credit
 
