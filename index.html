@@ -96,9 +96,9 @@
         apps that give farmers and ecologists real numbers from an ordinary photo, on ordinary hardware.
       </p>
       <p class="lede-sub">
-        The canopy on this page isn’t a stock image. It is generated from a known leaf area, photographed, and
-        measured live in your browser by the same algorithm as our first tool,
-        <a href="#tools">hemispheR-py</a> — then <a href="#method">checked against it</a>.
+        The canopy on this page is a real photograph from <a href="#tools">hemispheR-py</a>’s sample set, measured live in
+        your browser by the same algorithm — and a synthetic canopy of known leaf area is one click away, so the
+        measurement can be <a href="#method">checked against the truth</a>.
       </p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#tools">See the first tool <span aria-hidden="true">↓</span></a>
@@ -116,7 +116,7 @@
     <div class="lens-card" id="lensCard">
       <div class="lens-frame" id="lensFrame">
         <canvas class="lens-canvas" id="view" width="560" height="560" role="img"
-                aria-label="Synthetic fisheye photograph of a leafy tree canopy, with the zenith rings used to measure it."></canvas>
+                aria-label="Fisheye photograph of a canopy, with the zenith rings used to measure it."></canvas>
         <div class="lens-tag" id="lensTag">rendering canopy…</div>
         <div class="lens-drop" id="lensDrop" hidden>Drop a fisheye photo to measure it</div>
       </div>
@@ -154,7 +154,9 @@
           <button type="button" id="vPhoto" aria-pressed="true">Photo</button>
           <button type="button" id="vClass" aria-pressed="false">Sky / canopy</button>
         </div>
-        <button type="button" class="btn btn-sm" id="btnNew">New canopy</button>
+        <button type="button" class="btn btn-sm" id="btnNew">Synthetic canopy</button>
+        <button type="button" class="btn btn-sm" id="sampleA">Real photo 1</button>
+        <button type="button" class="btn btn-sm" id="sampleB">Real photo 2</button>
         <label class="btn btn-sm btn-file" id="btnFile">Measure my photo
           <input type="file" id="file" accept="image/*">
         </label>
@@ -395,6 +397,7 @@ python core/hemispherR-py.py</div>
 
 <script src="assets/js/canopy.js" defer></script>
 <script src="assets/js/reference.js" defer></script>
+<script src="assets/js/samples.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 </body>
 </html>

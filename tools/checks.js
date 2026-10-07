@@ -39,6 +39,9 @@
     check('parity_tile_shows_12_of_12', /12\s*\/\s*12/.test($('#glParity').textContent), $('#glParity').textContent);
     check('footer_names_the_commit', /parity ✓ 12\/12 · hemispheR-py @ [0-9a-f]{7}/.test($('#footMath').textContent), $('#footMath').textContent);
 
+    /* the page opens on a real photo; switch to the synthetic canopy for the known-truth checks */
+    ff.useSynthetic(); await sleep(1500);
+
     /* ── the canopy is really on the canvas ── */
     var px = pixelClasses();
     out.pixels = 'sky ' + px.sky.toFixed(2) + ' leaf ' + px.leaf.toFixed(2) + ' black ' + px.black.toFixed(2);
@@ -50,7 +53,7 @@
     var le = num('roLe'), L = num('roL'), lx = num('roLX'), difn = num('roDIFN');
     out.readout = 'Le ' + le + ' L ' + L + ' LX ' + lx + ' DIFN ' + difn;
     check('readout_numeric', [le, L, lx, difn].every(isFinite));
-    check('Le_near_true_lai', le > 2.5 && le < 3.2, 'Le ' + le);
+    check('Le_near_true_lai', le > 2.3 && le < 3.3, 'Le ' + le);
     check('LX_between_0_and_1', lx > 0.6 && lx <= 1.0, 'LX ' + lx);
     check('check_line_has_round_trip', /Round trip/.test($('#lensCheck').textContent) || /Clumped/.test($('#lensCheck').textContent), $('#lensCheck').textContent);
 

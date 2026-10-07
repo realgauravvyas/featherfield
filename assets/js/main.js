@@ -250,7 +250,15 @@
           'L ' + fmt(r.L, 2) + ' corrects it (LX ' + fmt(r.LX, 2) + ').';
       }
     } else {
-      line = '<b>Your photo</b> · ' + S.upload.w + '×' + S.upload.h + ' px · thresholds ' + r.thd.replace(/_/g, ' / ') + ' · measured in this tab, nothing uploaded.';
+      var u = S.upload;
+      if (u.ref) {
+        var same = S.zonal && r.thd === u.ref.thd && Math.abs(r.Le - u.ref.Le) < 0.011 && Math.abs(r.L - u.ref.L) < 0.011;
+        line = '<b>Real photo</b> · measured here: Le ' + fmt(r.Le, 2) + ', L ' + fmt(r.L, 2) + ', DIFN ' + fmt(r.DIFN, 1) + '%<br>' +
+          'hemispheR-py (Python) on the same pixels: Le ' + fmt(u.ref.Le, 2) + ', L ' + fmt(u.ref.L, 2) + ', DIFN ' + fmt(u.ref.DIFN, 1) + '% ' +
+          (same ? '<span class="ok">✓ identical</span>' : '<span class="muted">(zonal settings differ)</span>');
+        el.innerHTML = line; return;
+      }
+      line = '<b>Your photo</b> · ' + u.w + '×' + u.h + ' px · thresholds ' + r.thd.replace(/_/g, ' / ') + ' · measured in this tab, nothing uploaded.';
     }
     el.innerHTML = line + (parityLine ? '<br>' + parityLine : '');
   }
@@ -258,7 +266,7 @@
   function showTag() {
     var t = $('#lensTag');
     if (S.mode === 'synthetic') t.textContent = 'synthetic canopy · true leaf area ' + fmt(S.lai, 1) + ' · clumping ' + S.clump + '%';
-    else t.textContent = 'your photo · ' + S.upload.name + ' · centre crop, circle fills the short side';
+    else t.textContent = S.upload.label || ('your photo · ' + S.upload.name + ' · centre crop, circle fills the short side');
   }
 
   function say(msg, bad) {
@@ -336,7 +344,7 @@
   function analyseUpload(precomputed) {
     var u = S.upload; if (!u) return;
     try {
-      S.res = precomputed || C.analyze(u.data.data, u.w, u.h, { zonal: S.zonal, lens: S.lens });
+      S.res = precomputed || C.analyze(u.data.data, u.w, u.h, { zonal: S.zonal, lens: u.lens || S.lens, mask: u.mask || null });
     } catch (e) { say(String(e.message || e), true); return; }
     var side = Math.min(u.w, u.h), sx = Math.floor((u.w - side) / 2), sy = Math.floor((u.h - side) / 2);
     var pc = setSquare(photoCv, side); pc.drawImage(u.cv, sx, sy, side, side, 0, 0, side, side);
@@ -377,6 +385,31 @@
     frame.addEventListener(ev, function (e) { e.preventDefault(); $('#lensDrop').hidden = true; });
   });
   frame.addEventListener('drop', function (e) { var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; loadFile(f); });
+
+  /* ── real photographs from hemispheR-py's sample set ── */
+
+  function loadSample(key, done) {
+    var meta = window.FF_SAMPLES && window.FF_SAMPLES[key];
+    if (!meta) { if (done) done(false); return; }
+    var im = new Image();
+    im.onload = function () {
+      try {
+        var cv = document.createElement('canvas'); cv.width = im.naturalWidth; cv.height = im.naturalHeight;
+        var cx = cv.getContext('2d', { willReadFrequently: true }); cx.drawImage(im, 0, 0);
+        var data = cx.getImageData(0, 0, cv.width, cv.height);          // throws on file:// (tainted canvas)
+        S.zonal = true; $('#zonal').checked = true;
+        S.upload = { cv: cv, data: data, w: cv.width, h: cv.height, name: key, mask: meta.mask, lens: meta.lens, ref: meta.py,
+                     label: 'real photo · hemispheR-py sample ' + key + ' · FC-E8 lens' };
+        S.mode = 'photo'; enableSliders(false); cancelSweep();
+        analyseUpload();
+        if (done) done(true);
+      } catch (e) { if (done) done(false); }
+    };
+    im.onerror = function () { if (done) done(false); };
+    im.src = 'assets/img/' + meta.file;
+  }
+  $('#sampleA').addEventListener('click', function () { loadSample('P072'); });
+  $('#sampleB').addEventListener('click', function () { loadSample('P042b'); });
 
   /* ── the intro: sweep the photo into sky vs canopy ── */
 
@@ -453,13 +486,16 @@
   enableSliders(true);
   S.ringsOn = true;
   updateSynthetic(FINAL, true);
-  runIntro();
   setTimeout(startParity, 250);
+  /* open on a real photograph; the synthetic canopy (known truth) is one click away */
+  loadSample('P072', function (ok) { if (ok) runIntro(); });
+  if (!window.FF_SAMPLES) runIntro();
 
   /* test hooks: the check suite asserts against the live state instead of re-deriving it */
   window.__ff = {
     state: S,
     ready: function () { return !!(S.res && S.parity && S.parity.finished); },
+    useSynthetic: function () { $('#btnNew').click(); },
     setLai: function (v) { laiIn.value = v; laiIn.dispatchEvent(new Event('input')); },
     setClump: function (v) { clumpIn.value = v; clumpIn.dispatchEvent(new Event('input')); }
   };
